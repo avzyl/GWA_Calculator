@@ -129,7 +129,7 @@ function calculateFinals() {
 }
 
 function roundGrade(grade) {
-    const steps = [1.0, 1.25, 1.5, 1.75, 2.0];
+    const steps = [1.00, 1.25, 1.5, 1.75, 2.00, 2.25, 2.50, 2.75, 3.00, 3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75, 5.00];
     let closest = steps[0], minDiff = Math.abs(grade - closest);
     steps.forEach(s => { const diff = Math.abs(grade - s); if(diff < minDiff){ minDiff = diff; closest = s; } });
     return closest.toFixed(2);

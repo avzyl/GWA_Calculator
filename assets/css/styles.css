@@ -123,11 +123,6 @@ input {
     width: 20%;
 }
 
-.circle-btn:hover {
-    background-color: #000;
-    color: #fff;
-}
-
 .circle-btn-1:hover {
     background-color: #000;
     color: #fff;
@@ -177,6 +172,36 @@ input {
     max-width: 400px;
     text-align: left;
 }
+
+.swal-btn-black {
+    background-color: black !important;
+    color: white !important;
+    border: black 2px solid !important;
+    border-radius: 5px !important;
+    padding: 8px 20px !important;
+    font-size: 14px !important;
+}
+
+.swal2-styled:hover {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.swal-btn-red {
+    background-color: #aa1b1b !important;
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 8px 20px !important;
+    font-size: 14px !important;
+    border: #aa1b1b 2px solid !important;
+}
+
+.swal-btn-red:hover {
+    background-color: #fff !important;
+    color: #aa1b1b !important;
+
+}
+
 
 
 /* Home Container */

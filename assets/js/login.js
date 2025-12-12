@@ -47,7 +47,10 @@ if (loginBtn) {
             Swal.fire({
                 title: `Hello, ${displayName}!`,
                 icon: 'success',
-                confirmButtonText: 'Go to Home'
+                confirmButtonText: 'Go to Home',
+                customClass: {
+                    confirmButton: 'swal-btn-black'
+                }
             }).then(() => window.location.href = 'home.html');
 
         } catch (error) {
@@ -70,9 +73,12 @@ if (googleLoginBtn) {
             const user = result.user;
 
             Swal.fire({
-                title: `Hello, ${user.displayName}!`,
+                title: `Hello, ${displayName}!`,
                 icon: 'success',
-                confirmButtonText: 'Go to Home'
+                confirmButtonText: 'Go to Home',
+                customClass: {
+                    confirmButton: 'swal-btn-black'
+                }
             }).then(() => window.location.href = 'home.html');
 
         } catch (error) {

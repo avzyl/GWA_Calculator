@@ -20,58 +20,72 @@ async function getLyzzaUID() {
 document.getElementById("importFromLyzza").onclick = previewImport;
 
 async function previewImport() {
-    const lyzzaUID = await getLyzzaUID();
-    if (!lyzzaUID) {
-        Swal.fire("Error", "User 'lyzza' not found.", "error");
-        return;
-    }
+    const importBtn = document.getElementById("importFromLyzza");
 
-    // Get Lyzza school years
-    const sySnap = await getDocs(collection(db, "users", lyzzaUID, "schoolYears"));
+    // 🔹 Set loading state
+    importBtn.disabled = true;
+    importBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Loading Template`;
 
-    if (sySnap.empty) {
-        Swal.fire("No Data", "Lyzza has no school year records.", "warning");
-        return;
-    }
-
-    // Build Preview HTML
-    let html = `<div style='text-align:left; max-height:300px; overflow-y:auto;'>`;
-
-    for (let syDoc of sySnap.docs) {
-        const syData = syDoc.data();
-        html += `
-            <h3>${syData.schoolYear} • ${syData.level}</h3>
-            <p><b>${syData.course}</b></p>
-        `;
-
-        // Subjects
-        const subjSnap = await getDocs(
-            collection(db, "users", lyzzaUID, "schoolYears", syDoc.id, "subjects")
-        );
-
-        html += `<ul>`;
-        subjSnap.forEach((subj) => {
-            const s = subj.data();
-            html += `<li>${s.code} – ${s.description} (${s.units} units)</li>`;
-        });
-        html += `</ul><hr>`;
-    }
-
-    html += `</div>`;
-
-    // Show Preview
-    Swal.fire({
-        title: "Preview Import",
-        html: html,
-        width: 600,
-        showCancelButton: true,
-        confirmButtonText: "Import Now",
-        cancelButtonText: "Cancel"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            importData(lyzzaUID);
+    try {
+        const lyzzaUID = await getLyzzaUID();
+        if (!lyzzaUID) {
+            Swal.fire("Error", "User 'lyzza' not found.", "error");
+            return;
         }
-    });
+
+        const sySnap = await getDocs(collection(db, "users", lyzzaUID, "schoolYears"));
+
+        if (sySnap.empty) {
+            Swal.fire("No Data", "Lyzza has no school year records.", "warning");
+            return;
+        }
+
+        let html = `<div style='text-align:left; max-height:300px; overflow-y:auto;'>`;
+
+        for (let syDoc of sySnap.docs) {
+            const syData = syDoc.data();
+            html += `<h3>${syData.schoolYear} • ${syData.level}</h3>
+                     <p><b>${syData.course}</b></p>`;
+
+            const subjSnap = await getDocs(
+                collection(db, "users", lyzzaUID, "schoolYears", syDoc.id, "subjects")
+            );
+
+            html += `<ul>`;
+            subjSnap.forEach((subj) => {
+                const s = subj.data();
+                html += `<li>${s.code} – ${s.description} (${s.units} units)</li>`;
+            });
+            html += `</ul><hr>`;
+        }
+
+        html += `</div>`;
+
+        Swal.fire({
+            title: "Preview Import",
+            html: html,
+            width: 600,
+            showCancelButton: true,
+            confirmButtonText: "Import Now",
+            cancelButtonText: "Cancel",
+            customClass: {
+                confirmButton: 'swal-btn-black',
+                cancelButton: 'swal-btn-black'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                importData(lyzzaUID);
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "Failed to load preview.", "error");
+    } finally {
+        // 🔹 Reset button
+        importBtn.disabled = false;
+        importBtn.innerHTML = `Import Template <i class="fa-solid fa-download"></i>`;
+    }
 }
 
 async function importData(lyzzaUID) {
@@ -80,43 +94,41 @@ async function importData(lyzzaUID) {
 
     const targetUID = user.uid;
 
-    // 🌀 Show loading animation
     Swal.fire({
         title: "Importing...",
         text: "Please wait while data is being copied.",
         allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        }
+        didOpen: () => Swal.showLoading()
     });
 
-    // Grab Lyzza's school years
+    // Get existing school years of target user ONCE
+    const existing = await getDocs(
+        collection(db, "users", targetUID, "schoolYears")
+    );
+
+    const existingYears = existing.docs.map(doc => doc.data().schoolYear);
+
+    // Get Lyzza's school years
     const sySnap = await getDocs(collection(db, "users", lyzzaUID, "schoolYears"));
 
     for (let syDoc of sySnap.docs) {
         const syData = syDoc.data();
 
-        // Prevent double import
-        const existing = await getDocs(collection(db, "users", targetUID, "schoolYears"));
-        let alreadyExists = false;
+        // Skip if this SY already exists
+        if (existingYears.includes(syData.schoolYear)) continue;
 
-        existing.forEach((x) => {
-            if (x.data().schoolYear === syData.schoolYear) {
-                alreadyExists = true;
+        // Create school year
+        const newSY = await addDoc(
+            collection(db, "users", targetUID, "schoolYears"),
+            {
+                schoolYear: syData.schoolYear,
+                course: syData.course,
+                level: syData.level,
+                createdAt: new Date()
             }
-        });
+        );
 
-        if (alreadyExists) continue;
-
-        // Create new school year
-        const newSY = await addDoc(collection(db, "users", targetUID, "schoolYears"), {
-            schoolYear: syData.schoolYear,
-            course: syData.course,
-            level: syData.level,
-            createdAt: new Date()
-        });
-
-        // Copy subjects but clear grades
+        // Copy subjects including status
         const subjSnap = await getDocs(
             collection(db, "users", lyzzaUID, "schoolYears", syDoc.id, "subjects")
         );
@@ -131,7 +143,7 @@ async function importData(lyzzaUID) {
                     description: subjData.description,
                     section: subjData.section,
                     units: subjData.units,
-                    status: "included",
+                    status: subjData.status,
                     prelim: "",
                     midterm: "",
                     endterm: "",
@@ -141,6 +153,14 @@ async function importData(lyzzaUID) {
         }
     }
 
-    // Done
-    Swal.fire("Success", "Template imported successfully!", "success");
+    Swal.fire({
+        title: "Success",
+        text: "Template imported successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+        customClass: {
+            confirmButton: 'swal-btn-black'
+        }
+    });
+
 }

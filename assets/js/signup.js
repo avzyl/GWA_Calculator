@@ -79,10 +79,12 @@ if (googleSignupBtn) {
             }, { merge: true });
 
             Swal.fire({
-                title: 'Welcome!',
-                text: `Hello, ${user.displayName}!`,
+                title: `Hello, ${displayName}!`,
                 icon: 'success',
-                confirmButtonText: 'Continue'
+                confirmButtonText: 'Go to Home',
+                customClass: {
+                    confirmButton: 'swal-btn-black'
+                }
             }).then(() => window.location.href = 'home.html');
 
         } catch (error) {
@@ -112,10 +114,12 @@ if (googleSignupBtn) {
             }, { merge: true });
 
             Swal.fire({
-                title: 'Welcome!',
-                text: `Hello, ${user.displayName}!`,
+                title: `Hello, ${displayName}!`,
                 icon: 'success',
-                confirmButtonText: 'Continue'
+                confirmButtonText: 'Go to Home',
+                customClass: {
+                    confirmButton: 'swal-btn-black'
+                }
             }).then(() => window.location.href = 'home.html');
 
         } catch (error) {

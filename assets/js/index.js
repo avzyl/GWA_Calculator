@@ -14,6 +14,10 @@ if (logoutBtn) {
             showCancelButton: true,
             confirmButtonText: 'Yes, logout',
             cancelButtonText: 'No, stay',
+            customClass: {
+                confirmButton: 'swal-btn-black',
+                cancelButton: 'swal-btn-red'
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 signOut(auth)
@@ -22,7 +26,11 @@ if (logoutBtn) {
                             title: 'Logged Out',
                             text: 'You have been logged out successfully.',
                             icon: 'success',
-                            confirmButtonText: 'OK'
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'swal-btn-black'
+                            },
+                            buttonsStyling: false
                         }).then(() => {
                             window.location.href = 'index.html';
                         });
@@ -32,7 +40,6 @@ if (logoutBtn) {
                         Swal.fire({ title: 'Error', text: error.message, icon: 'error' });
                     });
             }
-            // else do nothing if user clicks "No"
         });
     });
 }
