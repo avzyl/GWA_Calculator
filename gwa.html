@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GWA | CorkCalc</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/a60b0a6b5e.js" crossorigin="anonymous"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="home-container">
+
+        <!-- Header -->
+        <div class="header">
+            <p class="sub-title"><span id="username">Student</span></p>
+        </div>
+
+        <h1 id="titleGWA">General Weighted Average </h1>
+        <div class="header-container">
+            <h2 id="titleSY"></h2>
+        </div>
+        <table id="computeTable">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>Finals</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="gwaLoader" class="loader" style="display: none;"></div>
+        <div id="noSubjectsMessage" style="display: none; text-align:center; color:gray; margin-top:10px;">No subjects found for this School Year.</div>
+
+
+        <div id="gwaResult"></div>
+
+        <button class="circle-btn-1" id="back-btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 CorkCalc. All rights reserved.</p>
+        <p>Designed by Lyzza</p>
+    </footer>
+
+    <script type="module" src="assets/js/index.js"></script>
+    <script type="module" src="assets/js/home.js"></script>
+    <script type="module" src="assets/js/school-year.js"></script>
+    <script type="module" src="assets/js/compute.js"></script>
+</body>
+</html>

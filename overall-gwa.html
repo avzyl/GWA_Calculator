@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overall GWA</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/a60b0a6b5e.js" crossorigin="anonymous"></script>
+
+    
+    <!-- Prevetion Script -->
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (!currentUser) {
+            // Prevent any content from flashing
+            document.documentElement.style.display = "none";
+
+            // Redirect immediately
+            window.location.href = "/index.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="home-container">
+        <h1>Overall GWA</h1>
+
+        <table id="computeTable">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>GWA</th>
+                    <th>Award</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="gwaLoader" class="loader" style="display: none;"></div>
+        <div id="noSYMessage" style="display: none; text-align:center; color:gray; margin-top:10px;">No school years found.</div>
+
+
+        <div id="overallGWAResult" style="margin-top:20px; font-size:18px; font-weight:bold;"></div>
+
+        <button class="circle-btn-1" id="back-btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+    </div>
+
+
+    <script type="module" src="assets/js/index.js"></script>
+    <script type="module" src="assets/js/overall-gwa.js"></script>
+</body>
+</html>

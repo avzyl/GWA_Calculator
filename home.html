@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Home | CorkCalc</title>
+
+        <!-- stylesheets -->
+        <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
+
+        <!-- fontawesome -->
+        <script src="https://kit.fontawesome.com/a60b0a6b5e.js" crossorigin="anonymous"></script>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    </head>
+    <body>
+        <div class="home">
+            <div class="home-container">
+                <!-- Header -->
+                <div class="header">
+                    <p class="title">Hello, <span id="username">Student</span>!</p>
+                </div>
+
+                <!-- Enrollment History Section -->
+                <div class="content-box">
+                    <div class="header-container">
+                        <h2 id="titleSY">Enrollment Details</h2>
+                        <div class="buttons-right">
+                            <button class="btn" id="importFromLyzza">
+                                Import Template <i class="fa-solid fa-download"></i>
+                            </button>
+                            <button class="circle-btn-1" id="addSYBtn">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <button class="circle-btn-1" id="computeGWA">
+                                <i class="fa-solid fa-calculator"></i>
+                            </button>
+                            <button class="circle-btn-1" id="info">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="schoolYearTable">
+                        <thead>
+                            <tr>
+                            <th>Period</th>
+                            <th>Course</th>
+                            <th>Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- dynamically added rows -->
+                        </tbody>
+                    </table>
+
+                    <div id="loader" class="loader" style="display: none;"></div>
+                    <div id="noDataMessage" style="display: none;">No school years found.</div>
+                </div>
+
+                <!-- Add School Year Modal -->
+                <div class="modal" id="syModal">
+                    <div class="modal-content">
+                    <h3>Add School Year</h3>
+
+                    <div class="input-box">
+                        <label>School Year</label>
+                        <input type="text" id="syInput" placeholder="e.g. 2024-2025-1" />
+                    </div>
+
+                    <div class="input-box">
+                        <label>Course</label>
+                        <input type="text" id="courseInput" placeholder="e.g. BSIT" />
+                    </div>
+
+                    <div class="input-box">
+                        <label>Level</label>
+                        <select id="levelInput">
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                        </select>
+                    </div>
+
+                    <button class="btn" id="saveSY">Save</button>
+                    <button class="btn close-btn" id="closeModal">Close</button>
+                    </div>
+                </div>
+
+                <!-- SUBJECTS MODAL -->
+                <div class="modal" id="subjectsModal">
+                    <div class="modal-content">
+                        <h3 id="subjectModalTitle">Subjects for SY</h3>
+
+                        <div id="subjectsList"></div>
+
+                        <h4>Add New Subject</h4>
+
+                        <div class="input-box">
+                        <label>Subject Name</label>
+                        <input type="text" id="subjName" placeholder="e.g. Data Structures" />
+                        </div>
+
+                        <div class="input-box">
+                        <label>Units</label>
+                        <input type="number" id="subjUnits" placeholder="e.g. 3" />
+                        </div>
+
+                        <div class="input-box">
+                        <label>Grade</label>
+                        <input type="number" id="subjGrade" placeholder="e.g. 1.25" step="0.01" />
+                        </div>
+
+                        <button class="btn" id="addSubjectBtn">Add Subject</button>
+                        <button class="btn close-btn" id="closeSubjectsModal">Close</button>
+                    </div>
+                </div>
+
+                <!-- Info Modal -->
+                <div class="modal" id="infoModal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-x" id="closeInfoModal">&times;</span>
+                        <h3>How to Use CorkCalc</h3>
+                        <p>Welcome! Here's a quick tutorial on how to use the app:</p>
+                        <ul>
+                            <li>Add your school year using the "+" button.</li>
+                            <li>Add subjects with grades in each school year.</li>
+                            <li>Click the calculator to see your GWA for that school year.</li>
+                            <li>Check your overall GWA and awards in the overall view.</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+                <button id="logout-btn" type="button">Logout</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 CorkCalc. All rights reserved.</p>
+            <p>Designed by Lyzza</p>
+        </footer>
+
+    </body>
+    <script type="module" src="assets/js/index.js"></script>
+    <script type="module" src="assets/js/home.js"></script>
+    <script type="module" src="assets/js/import.js"></script>
+
+    <script>
+        // Elements
+        const modal = document.getElementById("syModal");
+        const addBtn = document.getElementById("addSYBtn");
+        const closeBtn = document.getElementById("closeModal");
+        const saveBtn = document.getElementById("saveSY");
+        const tableBody = document.querySelector("#schoolYearTable tbody");
+
+        // Show modal
+        addBtn.onclick = () => modal.style.display = "flex";
+
+        // Close modal
+        closeBtn.onclick = () => modal.style.display = "none";
+
+        // Add row to table
+        saveBtn.onclick = () => {
+        const sy = document.getElementById("syInput").value;
+        const course = document.getElementById("courseInput").value;
+        const level = document.getElementById("levelInput").value;
+
+        if (!sy || !course) {
+            alert("Fill all fields!");
+            return;
+        }
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${sy}</td>
+            <td>${course}</td>
+            <td>BSIT${level}</td>
+        `;
+        row.onclick = function() {
+            alert("You clicked: " + sy);
+            // Or redirect to another page
+            // window.location.href = "viewSY.html?sy=" + sy;
+        };
+
+        tableBody.appendChild(row);
+
+        modal.style.display = "none";
+        };
+    </script>
+</html>

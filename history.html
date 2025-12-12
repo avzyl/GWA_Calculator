@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Enrollment Details | CorkCalc</title>
+
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+
+        <!-- fontawesome -->
+        <script src="https://kit.fontawesome.com/a60b0a6b5e.js" crossorigin="anonymous"></script>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
+        <div class="home">
+            <div class="home-container">
+        
+                <!-- Header -->
+                <div class="header">
+                    <p class="sub-title"><span id="username">Student</span></p>
+                </div>
+        
+                <div class="header-container">
+                    <h2 id="titleSY">Enrollment Details</h2>
+                    <div class="buttons-right">
+                        <button class="circle-btn-1" id="openSubjectModal">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <button class="circle-btn-1" id="computeGWA">
+                            <i class="fa-solid fa-calculator"></i>
+                        </button>
+                    </div>
+                </div>
+        
+                <div class="table-responsive">
+                    <table id="subjectTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Section</th>
+                                <th>Prelim</th>
+                                <th>Midterm</th>
+                                <th>Endterm</th>
+                                <th>Finals</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div id="subjectsLoader" class="loader" style="display: none;"></div>
+                    <div id="noSubjectsMessage" style="display: none; text-align:center; color:gray; margin-top:10px;">No subjects found.</div>
+
+                </div>
+        
+        
+                <button class="circle-btn-1" id="back-btn">
+                    <i class="fa-solid fa-angle-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SUBJECT MODAL -->
+        <div class="modal" id="subjectsModal">
+            <div class="modal-content">
+                <h3 id="subjectModalTitle">Add / Update Subject</h3>
+
+                <div class="input-box">
+                    <label>Subject Code</label>
+                    <input type="text" id="subjCode" placeholder="e.g. COMA11" />
+                </div>
+
+                <div class="input-box">
+                    <label>Subject Description</label>
+                    <input type="text" id="subjDesc" placeholder="e.g. Mathematics in the Modern World" />
+                </div>
+
+                <div class="input-box">
+                    <label>Section</label>
+                    <input type="text" id="subjSection" placeholder="e.g. BSIT1A-13" />
+                </div>
+
+                <div class="input-box">
+                    <label>Status</label>
+                    <select id="subjStatus">
+                        <option value="included">Included</option>
+                        <option value="excluded">Excluded</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label>Units</label>
+                    <select id="subjUnits">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label>Prelim</label>
+                    <select id="subjPrelim">
+                        <option value="">-- Select --</option>
+                        <option value="1.00">1.00</option>
+                        <option value="1.25">1.25</option>
+                        <option value="1.50">1.50</option>
+                        <option value="1.75">1.75</option>
+                        <option value="2.00">2.00</option>
+                        <option value="2.25">2.25</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label>Midterm</label>
+                    <select id="subjMidterm">
+                        <option value="">-- Select --</option>
+                        <option value="1.00">1.00</option>
+                        <option value="1.25">1.25</option>
+                        <option value="1.50">1.50</option>
+                        <option value="1.75">1.75</option>
+                        <option value="2.00">2.00</option>
+                        <option value="2.25">2.25</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label>Endterm</label>
+                    <select id="subjEndterm">
+                        <option value="">-- Select --</option>
+                        <option value="1.00">1.00</option>
+                        <option value="1.25">1.25</option>
+                        <option value="1.50">1.50</option>
+                        <option value="1.75">1.75</option>
+                        <option value="2.00">2.00</option>
+                        <option value="2.25">2.25</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label>Finals</label>
+                    <input type="text" id="subjFinals" placeholder="Auto-calculated" readonly />
+                </div>
+
+                <button class="btn" id="saveSubject">Save Subject</button>
+                <button class="btn close-btn" id="closeSubjectsModal">Close</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 CorkCalc. All rights reserved.</p>
+            <p>Designed by Lyzza</p>
+        </footer>
+
+        <script type="module" src="assets/js/index.js"></script>
+        <script type="module" src="assets/js/home.js"></script>
+        <script type="module" src="assets/js/school-year.js"></script>
+
+    </body>
+</html>

@@ -2,13 +2,55 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initialize-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>GWA Calculator</title>
+        <title>CorkCalc</title>
 
-        <link rel="stylesheet" type="text/css" href="assets/styles.css" />
+        <!-- stylesheets -->
+        <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
+
+        <!-- fontawesome -->
+        <script src="https://kit.fontawesome.com/a60b0a6b5e.js" crossorigin="anonymous"></script>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     </head>
     <body>
-        
+        <div class="login-container">
+            <h1>CorkCalc</h1>
+            <h3>LOGIN</h3>
+
+            <label>Username:</label>
+            <input type="text" id="username" placeholder="Enter username" />
+
+            <label>Password:</label>
+            <input type="password" id="password" placeholder="Enter password" />
+
+            <a href="forgot.html" class="forgot-link">Forgot password?</a>
+
+            <button class="login-btn">Login</button>
+
+            <div class="separator">
+                <span>----- or sign in with -----</span>
+            </div>
+
+            <div class="circle-btn">
+                <i class="fa-brands fa-google"></i>
+            </div>
+
+            <p class="signup-text">Don't have an account? <a href="signup.html" class="sign-up">Sign up</a></p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 CorkCalc. All rights reserved.</p>
+            <p>Designed by Lyzza</p>
+        </footer>
+
+
     </body>
+    <script type="module" src="assets/js/index.js"></script>
+    <script type="module" src="assets/js/login.js"></script>
 </html>
