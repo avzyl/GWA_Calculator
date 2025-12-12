@@ -12,7 +12,7 @@ html {
 
 body {
     font-family: "Courier New", monospace;
-    background-image: url("../img/bg-index.png");
+    background-image: url("../img/bg-index.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -24,7 +24,7 @@ body {
 
 /* Login Container */
 .login-container {
-    background-image: url("../img/crumpled-paper.png");
+    background-image: url("../img/crumpled-paper.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -181,7 +181,7 @@ input {
 
 /* Home Container */
 .home {
-    background-image: url("../img/bg.png");
+    background-image: url("../img/bg.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -193,7 +193,7 @@ input {
 }
 
 .home-container {
-    background-image: url("../img/crumpled-paper.png");
+    background-image: url("../img/crumpled-paper.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
